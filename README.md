@@ -8,10 +8,11 @@
 https://pt-br.reactjs.org/tutorial/tutorial.html
 
 #### Anotações:
-- O pai pode controlar o state dos filhos, e para alterá-lo, é necessário passar o método do pai para o filho como uma props
+- O component pai pode controlar o state dos seus filhos. Para alterá-lo, é necessário passar um método do component pai para o filho, como uma props.
 
 #### Atividades extras:
 
+#### Progresso:
 - Configuração para o Tutorial :heavy_check_mark:
 - Visão Geral :heavy_check_mark:
 - Completando o Jogo :heavy_check_mark:

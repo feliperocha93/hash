@@ -5,33 +5,29 @@ import'./board.css';
 import Square from '../Square/square';
 
 export default class Board extends Component {
-  renderSquare(i) {
+  renderSquare(square) {
     return (
       <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={this.props.squares[square]}
+        onClick={() => this.props.onClick(square)}
       />
     )
   }
 
+  renderRow(row) {
+    let squares = [0, 1, 2];
+    return (
+      <div className="board-row">
+        {squares.map(square => this.renderSquare(row + (square * 3)))}
+      </div>
+    )
+  }
+
   render() {
+    let rows = [0, 1, 2];
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {rows.map(row => this.renderRow(row))}
       </div>
     );
   }

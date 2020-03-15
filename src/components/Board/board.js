@@ -10,6 +10,7 @@ export default class Board extends Component {
       <Square
         value={this.props.squares[square]}
         onClick={() => this.props.onClick(square)}
+        key={square}
       />
     )
   }
@@ -17,7 +18,7 @@ export default class Board extends Component {
   renderRow(row) {
     let squares = [0, 1, 2];
     return (
-      <div className="board-row">
+      <div className="board-row" key={row}>
         {squares.map(square => this.renderSquare(row + (square * 3)))}
       </div>
     )

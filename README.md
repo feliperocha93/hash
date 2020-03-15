@@ -17,8 +17,8 @@ https://pt-br.reactjs.org/tutorial/tutorial.html
 - Adicionando a Viagem no Tempo :heavy_check_mark:
 
 #### Atividades extras:
-- Quebrar app em componentes menores
-- Criar parte de service
+- Quebrar app em componentes menores :heavy_check_mark:
+- Criar parte de service :x: *Task removida porque não achei errado manter o método calculateWinner no componente*
 - Mostrar a localização de cada jogada no formato (col,row), para cada jogada no histórico
 - Reescrever o componente Board para utilizar 2 loops para fazer os quadrados, em vez de deixá-los hardcoded
 - Adicionar um botão de toggle que lhe permita ordenar os jogadas em ordem ascendente ou descendente

@@ -10,6 +10,12 @@ https://pt-br.reactjs.org/tutorial/tutorial.html
 #### Anotações:
 - O component pai pode controlar o state dos seus filhos. Para alterá-lo, é necessário passar um método do component pai para o filho, como uma props.
 
+#### Progresso:
+- Configuração para o Tutorial :heavy_check_mark:
+- Visão Geral :heavy_check_mark:
+- Completando o Jogo :heavy_check_mark:
+- Adicionando a Viagem no Tempo :heavy_check_mark:
+
 #### Atividades extras:
 - Quebrar app em componentes menores
 - Criar parte de service
@@ -20,9 +26,3 @@ https://pt-br.reactjs.org/tutorial/tutorial.html
 - Quando ninguém ganhar, exiba uma mensagem informando que o resultado foi um empate.
 - Adicionar controles de jogo (placar, reiniciar placar, reiniciar partida (move 0))
 - Finalizar a estilização
-
-#### Progresso:
-- Configuração para o Tutorial :heavy_check_mark:
-- Visão Geral :heavy_check_mark:
-- Completando o Jogo :heavy_check_mark:
-- Adicionando a Viagem no Tempo :heavy_check_mark:

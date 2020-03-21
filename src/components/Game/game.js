@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Board from '../Board/board';
+import HistoryButton from '../HistoryButton/historyButton';
 
 import './game.css';
 
@@ -9,9 +10,10 @@ export default class Game extends Component {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null),
-        location: Array(2).fill(null)
+        location: Array(2).fill(null),
+        squares: Array(9).fill(null)
       }],
+      historyOrder: 'ASC',
       stepNumber: 0,
       xIsNext: true,
     };
@@ -61,6 +63,11 @@ export default class Game extends Component {
     })
   }
 
+  sortHistory() {
+    let historyOrder = this.state.historyOrder === 'ASC' ? 'DEC' : 'ASC';
+    this.setState({ historyOrder });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -72,20 +79,22 @@ export default class Game extends Component {
         `Go to move ${move} (col:${col + 1}, row:${row + 1})` :
         `Go to move start`;
       return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>
-            {desc}
-          </button>
-        </li>
+        <HistoryButton
+          key={move}
+          desc={desc}
+          onClick={() => this.jumpTo(move)}
+        />
       )
     });
+    const movesView = moves.sort((a, b) => {
+      return this.state.historyOrder === 'ASC' ?
+        a.key > b.key ? 1 : -1 :
+        a.key < b.key ? 1 : -1;
+    });
 
-    let status;
-    if (winner) {
-      status = 'Winner: ' + winner;
-    } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-    }
+    let status = winner ?
+      'Winner: ' + winner :
+      'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
     return (
       <div className="game">
@@ -97,7 +106,19 @@ export default class Game extends Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div>
+            <button
+              onClick={() => this.sortHistory()}
+              disabled={this.state.historyOrder === 'ASC'}>
+              ASC
+            </button>
+            <button
+              onClick={() => this.sortHistory()}
+              disabled={this.state.historyOrder === 'DEC'}>
+              DEC
+            </button>
+          </div>
+          <ol>{movesView}</ol>
         </div>
       </div>
     );

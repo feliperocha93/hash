@@ -34,7 +34,7 @@ export default class Game extends Component {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
         return {
-          "winner": squares[a],
+          "result": `Winner: ${squares[a]}`,
           "winningMove": lines[i]
         };
       }
@@ -71,10 +71,26 @@ export default class Game extends Component {
     this.setState({ historyOrder });
   }
 
+  updateGameStatus(history, current) {
+    if (history.length > 5 && history.length < 10) {
+      return this.calculateWinner(current.squares);
+    }
+    else if (history.length === 10) {
+      return { result: `Game draw!`, winningMove: [] };
+    }
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const calculateResult = this.calculateWinner(current.squares);
+    let gameStatus = this.updateGameStatus(history, current);
+
+    const status = gameStatus ?
+      gameStatus.result :
+      'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+
+    const winningMove = gameStatus ?
+      gameStatus.winningMove : [];
 
     const moves = history.map((step, move) => {
       const [row, col] = step.location;
@@ -94,13 +110,6 @@ export default class Game extends Component {
         a.key > b.key ? 1 : -1 :
         a.key < b.key ? 1 : -1;
     });
-
-    let status = calculateResult ?
-      'Winner: ' + calculateResult.winner :
-      'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-
-    let winningMove = calculateResult ?
-      calculateResult.winningMove : [];
 
     return (
       <div className="game">

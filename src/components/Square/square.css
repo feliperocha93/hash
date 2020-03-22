@@ -16,3 +16,7 @@
 .square:focus {
   outline: none;
 }
+
+.winner {
+  border: 5px solid black;
+}

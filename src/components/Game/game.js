@@ -33,7 +33,10 @@ export default class Game extends Component {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return {
+          "winner": squares[a],
+          "winningMove": lines[i]
+        };
       }
     }
     return null;
@@ -71,7 +74,7 @@ export default class Game extends Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = this.calculateWinner(current.squares);
+    const calculateResult = this.calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
       const [row, col] = step.location;
@@ -92,9 +95,12 @@ export default class Game extends Component {
         a.key < b.key ? 1 : -1;
     });
 
-    let status = winner ?
-      'Winner: ' + winner :
+    let status = calculateResult ?
+      'Winner: ' + calculateResult.winner :
       'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+
+    let winningMove = calculateResult ?
+      calculateResult.winningMove : [];
 
     return (
       <div className="game">
@@ -102,6 +108,7 @@ export default class Game extends Component {
           <Board
             squares={current.squares}
             onClick={(row, col) => this.handleClick(row, col)}
+            winningMove={winningMove}
           />
         </div>
         <div className="game-info">

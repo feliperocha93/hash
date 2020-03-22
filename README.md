@@ -20,8 +20,8 @@ https://pt-br.reactjs.org/tutorial/tutorial.html
 - Quebrar app em componentes menores :heavy_check_mark:
 - Criar parte de service :x:  
 *Task removida porque não achei errado manter o método calculateWinner no componente*
-- Reescrever o componente Board para utilizar 2 loops para fazer os quadrados, em vez de deixá-los hardcoded :heavy_check_mark::heavy_exclamation_mark:  
-*Alteração de ordem necessária pois a próxima task depende dessa* 
+- Reescrever o componente Board para utilizar 2 loops para fazer os quadrados, em vez de deixá-los hardcoded :heavy_check_mark:  
+*Ordem da taks alterada, próxima task depende dessa* 
 - Mostrar a localização de cada jogada no formato (col,row), para cada jogada no histórico :heavy_check_mark:
 - Adicionar um botão de toggle que lhe permita ordenar os jogadas em ordem ascendente ou descendente :heavy_check_mark:
 - Quando alguém ganhar, destaque os 3 quadrados que causaram a vitória

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Board from '../Board/board';
 import HistoryButton from '../HistoryButton/historyButton';
+import Scoreboard from '../Scoreboard/scoreboard';
 
 import './game.css';
 
@@ -9,14 +10,44 @@ export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      gameStatus: null,
       history: [{
         location: Array(2).fill(null),
         squares: Array(9).fill(null)
       }],
+      scoreboard: {
+        D: 0,
+        O: 0,
+        X: 0
+      },
       historyOrder: 'ASC',
       stepNumber: 0,
       xIsNext: true,
     };
+  }
+
+  async componentDidMount() {
+    const history = this.state.history;
+    const current = history[this.state.stepNumber];
+    if (history.length > 5 && history.length <= 9) {
+      return await this.setState({ "gameStatus": this.calculateWinner(current.squares) })
+    }
+    else if (history.length === 10) {
+      return await this.setState({
+        "gameStatus": this.calculateWinner(current.squares) ?
+          this.calculateWinner(current.squares) :
+          { letter: 'D', result: `Game draw!`, winningMove: [] }
+      });
+    }
+  }
+
+  updateScore(letter) {
+    this.setState({
+      scoreboard: {
+        ...this.state.scoreboard,
+        letter: `this.state.scoreboard.${letter}` + 1
+      }
+    })
   }
 
   calculateWinner(squares) {
@@ -71,19 +102,25 @@ export default class Game extends Component {
     this.setState({ historyOrder });
   }
 
-  updateGameStatus(history, current) {
-    if (history.length > 5 && history.length < 10) {
-      return this.calculateWinner(current.squares);
-    }
-    else if (history.length === 10) {
-      return { result: `Game draw!`, winningMove: [] };
-    }
-  }
+  // updateGameStatus(history, current) {
+  //   if (history.length > 5 && history.length <= 9) {
+  //     return this.calculateWinner(current.squares)
+  //   }
+  //   else if (history.length === 10) {
+  //     return (
+  //       this.calculateWinner(current.squares) ?
+  //         this.calculateWinner(current.squares) :
+  //         { letter: 'D', result: `Game draw!`, winningMove: [] }
+  //     );
+  //   }
+  // }
 
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    let gameStatus = this.updateGameStatus(history, current);
+    // let gameStatus = this.updateGameStatus(history, current);
+
+    let gameStatus = this.state.gameStatus;
 
     const status = gameStatus ?
       gameStatus.result :
@@ -121,20 +158,25 @@ export default class Game extends Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
-          <div>
-            <button
-              onClick={() => this.sortHistory()}
-              disabled={this.state.historyOrder === 'ASC'}>
-              ASC
+          <div >{status}</div>
+        </div>
+        <div className="game-history">
+          <button
+            onClick={() => this.sortHistory()}
+            disabled={this.state.historyOrder === 'ASC'}>
+            ASC
             </button>
-            <button
-              onClick={() => this.sortHistory()}
-              disabled={this.state.historyOrder === 'DEC'}>
-              DEC
+          <button
+            onClick={() => this.sortHistory()}
+            disabled={this.state.historyOrder === 'DEC'}>
+            DEC
             </button>
-          </div>
           <ol>{movesView}</ol>
+        </div>
+        <div className="game-score">
+          <Scoreboard
+            score={this.state.scoreboard}
+          />
         </div>
       </div>
     );

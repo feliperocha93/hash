@@ -24,7 +24,7 @@ https://pt-br.reactjs.org/tutorial/tutorial.html
 *Ordem da taks alterada, próxima task depende dessa* 
 - Mostrar a localização de cada jogada no formato (col,row), para cada jogada no histórico :heavy_check_mark:
 - Adicionar um botão de toggle que lhe permita ordenar os jogadas em ordem ascendente ou descendente :heavy_check_mark:
-- Quando alguém ganhar, destaque os 3 quadrados que causaram a vitória
-- Quando ninguém ganhar, exiba uma mensagem informando que o resultado foi um empate.
+- Quando alguém ganhar, destaque os 3 quadrados que causaram a vitória :heavy_check_mark:
+- Quando ninguém ganhar, exiba uma mensagem informando que o resultado foi um empate. :heavy_check_mark:
 - Adicionar controles de jogo (placar, reiniciar placar, reiniciar partida (move 0))
 - Finalizar a estilização

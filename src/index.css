@@ -4,5 +4,9 @@ body {
 }
 
 ol, ul {
-  padding-left: 30px;
+  padding-left: 0px;
+}
+
+ul {
+  list-style: none;
 }

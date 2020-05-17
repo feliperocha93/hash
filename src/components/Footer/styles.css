@@ -1,0 +1,19 @@
+.game-footer {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0!important;
+  width: 100%;
+}
+
+.game-footer > div {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.game-footer > div > * {
+  padding: 12px;
+  box-sizing: content-box;
+}

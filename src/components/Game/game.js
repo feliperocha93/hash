@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 
 import Board from '../Board/board';
-import HistoryButton from '../HistoryButton/historyButton';
+// import HistoryButton from '../HistoryButton/historyButton';
 import Scoreboard from '../Scoreboard/scoreboard';
+import Info from '../Info';
+// import History from '../History';
+import Footer from '../Footer';
 
 import './game.css';
 
@@ -10,44 +13,21 @@ export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStatus: null,
       history: [{
         location: Array(2).fill(null),
         squares: Array(9).fill(null)
       }],
-      scoreboard: {
-        D: 0,
-        O: 0,
-        X: 0
-      },
+      draw: 0,
+      winO: 0,
+      winX: 0,
       historyOrder: 'ASC',
       stepNumber: 0,
       xIsNext: true,
+      endMessage: true,
+      winner: null,
+      winnerMove: [],
+      isGaming: true
     };
-  }
-
-  async componentDidMount() {
-    const history = this.state.history;
-    const current = history[this.state.stepNumber];
-    if (history.length > 5 && history.length <= 9) {
-      return await this.setState({ "gameStatus": this.calculateWinner(current.squares) })
-    }
-    else if (history.length === 10) {
-      return await this.setState({
-        "gameStatus": this.calculateWinner(current.squares) ?
-          this.calculateWinner(current.squares) :
-          { letter: 'D', result: `Game draw!`, winningMove: [] }
-      });
-    }
-  }
-
-  updateScore(letter) {
-    this.setState({
-      scoreboard: {
-        ...this.state.scoreboard,
-        letter: `this.state.scoreboard.${letter}` + 1
-      }
-    })
   }
 
   calculateWinner(squares) {
@@ -64,29 +44,52 @@ export default class Game extends Component {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return {
-          "result": `Winner: ${squares[a]}`,
-          "winningMove": lines[i]
-        };
+        this.setState({ winnerMove: [a, b, c] })
+        return true;
       }
     }
     return null;
   }
 
   handleClick = (row, col) => {
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const { winner, xIsNext, winO, winX, stepNumber } = this.state;
+
+    if (winner) return;
+
+    if (stepNumber === 8) this.setState({
+      isGaming: false,
+      endMessage: 'Game Draw!',
+      draw: this.state.draw + 1
+    })
+
+    const history = this.state.history.slice(0, stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     let i = col + (row * 3);
-    if (this.calculateWinner(squares) || squares[i]) return;
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
+
+    if (squares[i]) return;
+
+    squares[i] = xIsNext ? 'X' : 'O';
+
+    if (this.calculateWinner(squares)) {
+      const winner = xIsNext ? 'X' : 'O';
+      const placar = winner === 'X' ? winX + 1 : winO + 1;
+
+      this.setState({
+        isGaming: false,
+        endMessage: `Winner is ${winner}`,
+        winner,
+        [`win${winner}`]: placar
+      });
+    }
+
     this.setState({
       history: history.concat([{
         squares,
         location: [row, col]
       }]),
       stepNumber: history.length,
-      xIsNext: !this.state.xIsNext,
+      xIsNext: !xIsNext,
     });
   };
 
@@ -102,83 +105,86 @@ export default class Game extends Component {
     this.setState({ historyOrder });
   }
 
-  // updateGameStatus(history, current) {
-  //   if (history.length > 5 && history.length <= 9) {
-  //     return this.calculateWinner(current.squares)
-  //   }
-  //   else if (history.length === 10) {
-  //     return (
-  //       this.calculateWinner(current.squares) ?
-  //         this.calculateWinner(current.squares) :
-  //         { letter: 'D', result: `Game draw!`, winningMove: [] }
-  //     );
-  //   }
-  // }
+  newGame() {
+    this.setState({
+      history: [{
+        location: Array(2).fill(null),
+        squares: Array(9).fill(null)
+      }],
+      stepNumber: 0,
+      xIsNext: true,
+      endMessage: true,
+      winner: null,
+      winnerMove: [],
+      isGaming: true
+    })
+  }
 
   render() {
-    const history = this.state.history;
+    const {
+      history, endMessage, isGaming, xIsNext, winnerMove, draw, winX, winO
+    } = this.state;
     const current = history[this.state.stepNumber];
-    // let gameStatus = this.updateGameStatus(history, current);
 
-    let gameStatus = this.state.gameStatus;
+    // const moves = history.map((step, move) => {
+    //   const [row, col] = step.location;
+    //   const desc = move ?
+    //     `Go to move ${move} (col:${col + 1}, row:${row + 1})` :
+    //     null;
+    //   return (
+    //     <HistoryButton
+    //       key={move}
+    //       desc={desc}
+    //       onClick={() => this.jumpTo(move)}
+    //     />
+    //   )
+    // });
+    // const movesView = moves.sort((a, b) => {
+    //   return this.state.historyOrder === 'ASC' ?
+    //     a.key > b.key ? 1 : -1 :
+    //     a.key < b.key ? 1 : -1;
+    // });
 
-    const status = gameStatus ?
-      gameStatus.result :
-      'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-
-    const winningMove = gameStatus ?
-      gameStatus.winningMove : [];
-
-    const moves = history.map((step, move) => {
-      const [row, col] = step.location;
-      const desc = move ?
-        `Go to move ${move} (col:${col + 1}, row:${row + 1})` :
-        `Go to move start`;
-      return (
-        <HistoryButton
-          key={move}
-          desc={desc}
-          onClick={() => this.jumpTo(move)}
-        />
-      )
-    });
-    const movesView = moves.sort((a, b) => {
-      return this.state.historyOrder === 'ASC' ?
-        a.key > b.key ? 1 : -1 :
-        a.key < b.key ? 1 : -1;
-    });
+    const status = isGaming ? `${xIsNext === true ? 'X' : 'O'}` : endMessage;
 
     return (
-      <div className="game">
-        <div className="game-board">
+      <>
+        <div className="game">
+          <h1>REACT HASH</h1>
+
           <Board
+            className="game-board"
             squares={current.squares}
             onClick={(row, col) => this.handleClick(row, col)}
-            winningMove={winningMove}
+            winningMove={winnerMove}
           />
-        </div>
-        <div className="game-info">
-          <div >{status}</div>
-        </div>
-        <div className="game-history">
-          <button
-            onClick={() => this.sortHistory()}
-            disabled={this.state.historyOrder === 'ASC'}>
-            ASC
-            </button>
-          <button
-            onClick={() => this.sortHistory()}
-            disabled={this.state.historyOrder === 'DEC'}>
-            DEC
-            </button>
-          <ol>{movesView}</ol>
-        </div>
-        <div className="game-score">
+
+          <Info
+            className="game-info"
+            status={status}
+          />
+
           <Scoreboard
-            score={this.state.scoreboard}
+            score={{ draw, winX, winO }}
           />
+
+          <button
+            className="new-game btn"
+            onClick={() => this.newGame()}
+          >
+            RESTART GAME
+          </button>
+
+          {/* <History
+            className="game-history"
+            historyOrder={this.state.historyOrder}
+            sortHistory={() => this.sortHistory()}
+            movesView={movesView}
+          /> */}
+
         </div>
-      </div>
+        <Footer />
+      </>
     );
   }
 }

@@ -75,6 +75,8 @@ export default class Game extends Component {
       const winner = xIsNext ? 'X' : 'O';
       const placar = winner === 'X' ? winX + 1 : winO + 1;
 
+      if (window.innerWidth > 1024) window.scrollTo({ top: 100, behavior: "smooth" });
+
       this.setState({
         isGaming: false,
         endMessage: `Winner is ${winner}`,

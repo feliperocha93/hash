@@ -1,20 +1,16 @@
+## React-Hash
+Jogue algumas partidas: https://react-hash.netlify.app/
+
 #### Pontos interessantes:
 - create-react-app
 - props
 - state
 - novas features ES6+
 
-#### Link do curso:
+Obs: A parte de histórico de jogadas está comentada pois achei que estava poluíndo a tela do meu joguinho rs Porém, funciona perfeitamente.
+
+#### Link do tutorial:
 https://pt-br.reactjs.org/tutorial/tutorial.html
-
-#### Anotações:
-- O component pai pode controlar o state dos seus filhos. Para alterá-lo, é necessário passar um método do component pai para o filho, como uma props.
-
-#### Progresso:
-- Configuração para o Tutorial :heavy_check_mark:
-- Visão Geral :heavy_check_mark:
-- Completando o Jogo :heavy_check_mark:
-- Adicionando a Viagem no Tempo :heavy_check_mark:
 
 #### Atividades extras:
 - Quebrar app em componentes menores :heavy_check_mark:
@@ -26,5 +22,5 @@ https://pt-br.reactjs.org/tutorial/tutorial.html
 - Adicionar um botão de toggle que lhe permita ordenar os jogadas em ordem ascendente ou descendente :heavy_check_mark:
 - Quando alguém ganhar, destaque os 3 quadrados que causaram a vitória :heavy_check_mark:
 - Quando ninguém ganhar, exiba uma mensagem informando que o resultado foi um empate. :heavy_check_mark:
-- Adicionar controles de jogo (placar, reiniciar placar, reiniciar partida (move 0))
-- Finalizar a estilização
+- Adicionar controles de jogo (placar, reiniciar placar, reiniciar partida (move 0)) :heavy_check_mark:
+- Finalizar a estilização :heavy_check_mark:

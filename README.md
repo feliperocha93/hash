@@ -1,7 +1,10 @@
 ## React-Hash
 Jogue algumas partidas: https://react-hash.netlify.app/
 
-#### Pontos interessantes:
+Este app é uma versão com novas features do app construído no tutorial de React do site oficial:  
+https://pt-br.reactjs.org/tutorial/tutorial.html
+
+#### Pontos interessantes abordados no tutorial:
 - create-react-app
 - props
 - state
@@ -9,10 +12,7 @@ Jogue algumas partidas: https://react-hash.netlify.app/
 
 Obs: A parte de histórico de jogadas está comentada pois achei que estava poluíndo a tela do meu joguinho rs Porém, funciona perfeitamente.
 
-#### Link do tutorial:
-https://pt-br.reactjs.org/tutorial/tutorial.html
-
-#### Atividades extras:
+#### Features que implementei no app original:
 - Quebrar app em componentes menores :heavy_check_mark:
 - Criar parte de service :x:  
 *Task removida porque não achei errado manter o método calculateWinner no componente*
